@@ -25,7 +25,4 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PYTHON_CONFIGURE_OPTS="--enable-framework"
 
-alias work="cd ~/Documents/dimo/"
-alias 4fun="cd ~/Documents/random"
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
