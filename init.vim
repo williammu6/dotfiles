@@ -35,7 +35,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'lyuts/vim-rtags'
-Plug 'https://github.com/kien/ctrlp.vim.git'
+"Plug 'https://github.com/kien/ctrlp.vim.git'
 Plug 'mbbill/undotree'
 Plug 'davidhalter/jedi-vim'
 Plug 'tpope/vim-rails'
