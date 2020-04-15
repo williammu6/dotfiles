@@ -1,8 +1,7 @@
 [user]
 	name = William Murari
 	email = williammu6@gmail.com
-[pull]
-[oh-my-zsh]
-	hide-status = 1
+[credential]
+	helper = store
 [core]
 	editor = nvim
