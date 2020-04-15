@@ -101,6 +101,13 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 "trigger completion
 inoremap <silent><expr> <c-space> coc#refresh()
 
+let g:coc_global_extensions = [
+  \ 'coc-snippets',
+  \ 'coc-tsserver',
+  \ 'coc-html',
+  \ 'coc-prettier',
+  \ 'coc-json']
+
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
