@@ -42,8 +42,9 @@ Plug 'tpope/vim-rails'
 Plug 'othree/html5.vim'
 Plug 'vim-python/python-syntax'
 Plug 'maxmellon/vim-jsx-pretty'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'tpope/vim-sleuth'
-Plug 'ryanoasis/vim-devicons'
+Plug 'neoclide/coc.nvim'
 
 
 call plug#end()
@@ -86,15 +87,20 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-nnoremap <silent> <Leader>gd :YcmCompleter GoTo<CR>
-nnoremap <silent> <Leader>gf :YcmCompleter FixIt<CR>
+"Coc conf
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+"autofix current line
+nmap <leader>qf  <Plug>(coc-fix-current)
 
-fun! GoYCM()
-    nnoremap <buffer> <silent> <leader>gd :YcmCompleter GoTo<CR>
-    nnoremap <buffer> <silent> <leader>gr :YcmCompleter GoToReferences<CR>
-    nnoremap <buffer> <silent> <leader>rr :YcmCompleter RefactorRename<space>
-endfun
+"trigger completion
+inoremap <silent><expr> <c-space> coc#refresh()
+
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -104,7 +110,6 @@ endfun
 
 
 autocmd BufWritePre * :call TrimWhitespace()
-autocmd FileType typescript :call GoYCM()
 
 au BufNewFile,BufRead *.ts setlocal filetype=typescript
 au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
