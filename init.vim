@@ -8,13 +8,14 @@ set expandtab
 set smartindent
 set nohlsearch
 set nu
-set nowrap
 set smartcase
 set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
+set wrap!
+
 
 "set cmdheight=2
 
@@ -22,30 +23,27 @@ set updatetime=50
 
 set shortmess+=c
 
-set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
+"set colorcolumn=80
+"highlight ColorColumn ctermbg=0 guibg=lightgrey
+
 
 
 
 call plug#begin()
 
+
+Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
-Plug 'ycm-core/YouCompleteMe'
+Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'lyuts/vim-rtags'
-"Plug 'https://github.com/kien/ctrlp.vim.git'
 Plug 'mbbill/undotree'
-Plug 'davidhalter/jedi-vim'
-Plug 'tpope/vim-rails'
-Plug 'othree/html5.vim'
-Plug 'vim-python/python-syntax'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'neoclide/coc.nvim'
-
 
 call plug#end()
 
@@ -62,11 +60,12 @@ let mapleader = " "
 
 
 " Netrw
-let g:netrw_banner = 0
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_winsize = 20
-let g:NetrwIsOpen=1
+let g:netrw_browse_split = 2
+let g:vrfr_rg = 'true'
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+
 
 
 let g:jedi#auto_initialization = 0
@@ -106,7 +105,10 @@ let g:coc_global_extensions = [
   \ 'coc-tsserver',
   \ 'coc-html',
   \ 'coc-prettier',
-  \ 'coc-json']
+  \ 'coc-json',
+  \ 'coc-phpls',
+  \ 'coc-clangd',
+  \ 'coc-python']
 
 
 fun! TrimWhitespace()
@@ -123,11 +125,12 @@ au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 
 autocmd FileType python setlocal completeopt-=preview
 
-nnoremap <C-p> :FZF<CR>
+"nnoremap <C-p> :FZF<CR>
+nnoremap <C-p> :GFiles<cr>
+
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit'
   \}
-
 
