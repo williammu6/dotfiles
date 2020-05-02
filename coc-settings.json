@@ -1,3 +1,19 @@
 {
-  "typescript.suggest.autoImports":true
+  "typescript.suggest.autoImports":true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "python",
+    "php",
+    "json",
+    "jsx",
+    "js"
+  ],
+  "eslint.options": {"configFile": "/Users/williammurari/.eslintrc.json"},
+  "prettier.semi": true,
+  "tsserver.trace.server": "verbose"
+
 }
