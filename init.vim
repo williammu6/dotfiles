@@ -1,31 +1,10 @@
-syntax on
+filetype plugin on
 
-set hidden
-set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set nohlsearch
-set smartcase
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set undofile
-set incsearch
-set wrap!
-set rnu
-
-set updatetime=50
-
-set shortmess+=c
 
 call plug#begin()
 
-
-
-Plug 'flazz/vim-colorschemes'
-Plug 'morhetz/gruvbox'
+Plug 'ntk148v/vim-horizon'
+Plug 'scrooloose/nerdcommenter'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -36,13 +15,47 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'tpope/vim-sleuth'
 Plug 'mattn/emmet-vim'
-
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
-colorscheme gruvbox
-set background=dark
+colorscheme horizon
+
+highlight Pmenu ctermbg=111217 guibg=#111217
+
+syntax on
+
+set hidden
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set nohlsearch
+set smartcase
+set signcolumn=yes
+set encoding=utf-8
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
+set wrap
+set rnu
+set nu
+
+set updatetime=50
+
+set shortmess+=c
+
+
+
+
+
+
+
+
 hi Normal guibg=NONE ctermbg=NONE
 hi clear SignColumn
 
@@ -76,6 +89,9 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+" horizon
+let g:lightline = {'colorscheme' : 'horizon'}
 
 "Coc conf
 xmap <leader>f  <Plug>(coc-format-selected)
@@ -129,4 +145,18 @@ let g:user_emmet_leader_key=','
 
 nmap <F2> <Plug>(coc-rename)
 
+" graphql
+au BufNewFile,BufRead *.prisma setfiletype graphql
 
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
