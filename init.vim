@@ -17,6 +17,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
 
 call plug#end()
 
@@ -160,3 +161,11 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+
+" Vim-fugitive
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+nmap <leader>gc :Gcommit<CR>
+nmap <leader>gps :Gpush<CR>
+nmap <leader>gs :G<CR>
