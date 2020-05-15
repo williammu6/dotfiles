@@ -7,3 +7,6 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+
+alias tas="tmux attach-session -t"
+alias tns="tmux new -s"

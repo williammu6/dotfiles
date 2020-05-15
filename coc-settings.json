@@ -8,13 +8,9 @@
     "typescriptreact",
     "python",
     "php",
-    "json",
-    "jsx",
-    "js"
+    "json"
   ],
-  "eslint.options": {"configFile": "/Users/williammurari/.eslintrc.json"},
   "prettier.semi": true,
-  "tsserver.trace.server": "verbose",
   "python.jediEnabled": true,
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true

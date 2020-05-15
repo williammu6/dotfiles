@@ -4,7 +4,6 @@ filetype plugin on
 call plug#begin()
 
 Plug 'ntk148v/vim-horizon'
-Plug 'scrooloose/nerdcommenter'
 Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -13,11 +12,11 @@ Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'tpope/vim-sleuth'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
@@ -51,12 +50,6 @@ set updatetime=50
 set shortmess+=c
 
 
-
-
-
-
-
-
 hi Normal guibg=NONE ctermbg=NONE
 hi clear SignColumn
 
@@ -67,18 +60,6 @@ endif
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let mapleader = " "
 
-
-
-" Netrw
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 2
-let g:vrfr_rg = 'true'
-let g:netrw_banner = 0
-let g:netrw_winsize = 25
-
-let g:ctrlp_use_caching = 0
-
-
 nnoremap <leader>h :wincmd h<CR>
 noremap <Leader>s :update<CR>
 
@@ -86,7 +67,6 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -168,4 +148,26 @@ nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gps :Gpush<CR>
+nmap <leader>gpl :Gpull<CR>
 nmap <leader>gs :G<CR>
+
+"NerdTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+map <C-n> :NERDTreeToggle<CR>
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+
+let NERDTreeAutoDeleteBuffer = 1
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
