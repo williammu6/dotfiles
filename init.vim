@@ -1,14 +1,11 @@
-filetype plugin on
-
-
 call plug#begin()
 
+
+Plug 'flazz/vim-colorschemes'
 Plug 'ntk148v/vim-horizon'
-Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
-Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'HerringtonDarkholme/yats.vim'
@@ -18,19 +15,13 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'preservim/nerdtree'
 
+Plug 'ThePrimeagen/vim-be-good'
+
 call plug#end()
-
-colorscheme horizon
-
-highlight Pmenu ctermbg=111217 guibg=#111217
-
 syntax on
 
 set hidden
 set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
 set smartindent
 set nohlsearch
 set smartcase
@@ -42,15 +33,31 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 set wrap
+set termguicolors
 set rnu
 set nu
-
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set clipboard^=unnamed,unnamedplus
 set updatetime=50
 
 set shortmess+=c
 
+filetype plugin indent on
+filetype plugin on
 
-hi Normal guibg=NONE ctermbg=NONE
+
+colorscheme codedark
+
+highlight Pmenu ctermbg=111217 guibg=#111217
+
+hi! Normal cterm=NONE gui=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
+hi! SignColumn cterm=NONE gui=NONE ctermbg=233 ctermfg=242 guibg=NONE guifg=NONE
+hi! EndOfBuffer cterm=NONE gui=NONE ctermbg=233 ctermfg=236 guibg=NONE guifg=#2e303e
+hi! LineNr ctermfg=grey ctermbg=white guifg=#888888 guibg=none
+
+
 hi clear SignColumn
 
 if executable('rg')
@@ -71,8 +78,6 @@ nnoremap <leader>u :UndotreeShow<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" horizon
-let g:lightline = {'colorscheme' : 'horizon'}
 
 "Coc conf
 xmap <leader>f  <Plug>(coc-format-selected)
@@ -171,3 +176,10 @@ let NERDTreeAutoDeleteBuffer = 1
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+
+
+"Clipboard
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
