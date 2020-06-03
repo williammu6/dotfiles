@@ -1,15 +1,6 @@
 {
   "typescript.suggest.autoImports":true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "python",
-    "php",
-    "json"
-  ],
+  "eslint.filetypes": ["javascript", "typescript", "typescriptreact", "javascriptreact"],
   "prettier.semi": true,
   "python.jediEnabled": true,
   "python.linting.pylintEnabled": false,

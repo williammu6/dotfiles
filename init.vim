@@ -1,8 +1,9 @@
 call plug#begin()
 
 
-Plug 'flazz/vim-colorschemes'
+Plug 'gruvbox-community/gruvbox'
 Plug 'ntk148v/vim-horizon'
+
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
@@ -15,7 +16,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'preservim/nerdtree'
 
-Plug 'ThePrimeagen/vim-be-good'
 
 call plug#end()
 syntax on
@@ -36,8 +36,9 @@ set wrap
 set termguicolors
 set rnu
 set nu
+set autoindent
 set expandtab
-set shiftwidth=2
+set shiftwidth=4
 set softtabstop=2
 set clipboard^=unnamed,unnamedplus
 set updatetime=50
@@ -48,7 +49,8 @@ filetype plugin indent on
 filetype plugin on
 
 
-colorscheme codedark
+colorscheme gruvbox
+set background=dark
 
 highlight Pmenu ctermbg=111217 guibg=#111217
 
@@ -118,7 +120,7 @@ autocmd FileType python setlocal completeopt-=preview
 "nnoremap <C-p> :FZF<CR>
 nnoremap <C-p> :GFiles<cr>
 
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+"command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -176,6 +178,7 @@ let NERDTreeAutoDeleteBuffer = 1
 
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+let NERDTreeShowHidden=1
 
 
 "Clipboard
