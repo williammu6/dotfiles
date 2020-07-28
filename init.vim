@@ -3,54 +3,48 @@ syntax on
 filetype plugin indent on
 filetype plugin on
 
-set shiftwidth=4
-set softtabstop=4
+set shiftwidth=2
+set softtabstop=2
 set tabstop=4
 set hidden
 set noerrorbells
 set smartindent
-set nohlsearch
 set smartcase
 set signcolumn=yes
 set encoding=utf-8
 set noswapfile
 set nobackup
+set nohlsearch
+set incsearch
 set undodir=~/.vim/undodir
 set undofile
-set incsearch
 set nowrap
-set termguicolors
+set notermguicolors
 set rnu
 set nu
 set autoindent
 set expandtab
 set clipboard^=unnamed,unnamedplus
-set updatetime=50
 set shortmess+=c
 set guicursor=
 set scrolloff=8
-set noshowmode
-
+set lazyredraw
 
 
 call plug#begin()
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'gruvbox-community/gruvbox'
+Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
-Plug 'mbbill/undotree'
-Plug 'mattn/emmet-vim'
-Plug 'sheerun/vim-polyglot'
-Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
-Plug 'preservim/nerdtree'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
 
-
+Plug 'gruvbox-community/gruvbox'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sheerun/vim-polyglot'
+Plug 'mattn/emmet-vim'
 call plug#end()
-
-
 
 let mapleader = " "
 
@@ -65,8 +59,8 @@ let g:gruvbox_invert_selection='0'
 colorscheme gruvbox
 set background=dark
 
-highlight Pmenu ctermbg=111217 guibg=#111217
-
+"highlight Pmenu ctermbg=111217 guibg=#555
+"
 hi clear SignColumn
 
 if executable('rg')
@@ -75,7 +69,6 @@ endif
 
 nnoremap <leader>h :wincmd h<CR>
 noremap <Leader>s :update<CR>
-
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
@@ -96,18 +89,9 @@ autocmd BufWritePre * :call TrimWhitespace()
 au BufNewFile,BufRead *.ts setlocal filetype=typescript
 au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 
-autocmd FileType python setlocal completeopt-=preview
-
 "nnoremap <C-p> :FZF<CR>
 nnoremap <C-p> :GFiles<cr>
 
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \}
-
-let g:user_emmet_leader_key=','
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -166,3 +150,9 @@ nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart
+
+"Emmet
+let g:user_emmet_leader_key=','
+
+"Airline
+let g:airline_extensions = []
