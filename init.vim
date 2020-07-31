@@ -1,67 +1,74 @@
-syntax on
-
-filetype plugin indent on
 filetype plugin on
 
-set shiftwidth=2
-set softtabstop=2
-set tabstop=4
-set hidden
-set noerrorbells
-set smartindent
-set smartcase
-set signcolumn=yes
-set encoding=utf-8
-set noswapfile
-set nobackup
-set nohlsearch
-set incsearch
-set undodir=~/.vim/undodir
-set undofile
-set nowrap
-set notermguicolors
-set rnu
-set nu
-set autoindent
-set expandtab
-set clipboard^=unnamed,unnamedplus
-set shortmess+=c
-set guicursor=
-set scrolloff=8
-set lazyredraw
-
-
 call plug#begin()
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
-Plug 'vim-airline/vim-airline'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
-
 Plug 'gruvbox-community/gruvbox'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
+Plug 'itchyny/lightline.vim'
 call plug#end()
+
+set splitright
+set updatetime=100
+set hidden
+set nobackup
+set nowritebackup
+set notermguicolors
+set shortmess+=c
+set signcolumn=no
+set encoding=utf-8
+set t_Co=256
+set noerrorbells
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set nowrap
+set rnu
+set nu
+set noshowmode
+set clipboard^=unnamed,unnamedplus
+set guicursor=
+set lazyredraw
+
+syntax on
 
 let mapleader = " "
 
 
 let g:gruvbox_contrast_dark = 'hard'
+
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 let g:gruvbox_invert_selection='0'
 
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
 colorscheme gruvbox
 set background=dark
 
 "highlight Pmenu ctermbg=111217 guibg=#555
-"
+highlight Normal ctermbg=None guibg=None
+
 hi clear SignColumn
+set colorcolumn=80
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -73,6 +80,8 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
+
+nnoremap <leader>w :q<CR>
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -154,5 +163,13 @@ nnoremap <leader>cr :CocRestart
 "Emmet
 let g:user_emmet_leader_key=','
 
-"Airline
-let g:airline_extensions = []
+
+"Prettier
+nmap <leader>pa :Prettier<CR>
+nmap <leader>pf :PrettierFragment<CR>
+nmap <leader>pp :PrettierPartial<CR>
+
+let g:prettier#config#bracket_spacing = 'true'
+let g:prettier#config#jsx_bracket_same_line = 'false'
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.md,*html PrettierAsync
