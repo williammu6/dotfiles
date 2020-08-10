@@ -8,11 +8,12 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
-Plug 'gruvbox-community/gruvbox'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
 Plug 'itchyny/lightline.vim'
+Plug 'chriskempson/base16-vim'
+
 call plug#end()
 
 set splitright
@@ -20,7 +21,7 @@ set updatetime=100
 set hidden
 set nobackup
 set nowritebackup
-set notermguicolors
+set termguicolors
 set shortmess+=c
 set signcolumn=no
 set encoding=utf-8
@@ -30,6 +31,8 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set nowrap
+set nohlsearch
+set incsearch
 set rnu
 set nu
 set noshowmode
@@ -41,15 +44,6 @@ syntax on
 
 let mapleader = " "
 
-
-let g:gruvbox_contrast_dark = 'hard'
-
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-let g:gruvbox_invert_selection='0'
-
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'active': {
@@ -58,16 +52,17 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead'
-      \ },
+      \ }
       \ }
 
-colorscheme gruvbox
+colorscheme base16-gruvbox-dark-hard
 set background=dark
 
 "highlight Pmenu ctermbg=111217 guibg=#555
-highlight Normal ctermbg=None guibg=None
+"highlight Normal ctermbg=None guibg=None
 
 hi clear SignColumn
+hi clear LineNr
 set colorcolumn=80
 
 if executable('rg')
@@ -163,13 +158,12 @@ nnoremap <leader>cr :CocRestart
 "Emmet
 let g:user_emmet_leader_key=','
 
-
 "Prettier
-nmap <leader>pa :Prettier<CR>
-nmap <leader>pf :PrettierFragment<CR>
-nmap <leader>pp :PrettierPartial<CR>
+nmap <leader>fa :PrettierAsync<CR>
 
 let g:prettier#config#bracket_spacing = 'true'
 let g:prettier#config#jsx_bracket_same_line = 'false'
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.md,*html PrettierAsync
+
+"au BufNewFile,BufRead *.ts setlocal filetype=typescript
+"au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
