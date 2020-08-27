@@ -11,13 +11,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
-Plug 'itchyny/lightline.vim'
-Plug 'chriskempson/base16-vim'
-
+Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
 set splitright
-set updatetime=100
+set updatetime=300
 set hidden
 set nobackup
 set nowritebackup
@@ -35,7 +33,6 @@ set nohlsearch
 set incsearch
 set rnu
 set nu
-set noshowmode
 set clipboard^=unnamed,unnamedplus
 set guicursor=
 set lazyredraw
@@ -44,25 +41,16 @@ syntax on
 
 let mapleader = " "
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ }
-      \ }
-
-colorscheme base16-gruvbox-dark-hard
+let g:gruvbox_material_background = 'hard'
+colorscheme gruvbox-material
 set background=dark
 
 "highlight Pmenu ctermbg=111217 guibg=#555
 "highlight Normal ctermbg=None guibg=None
 
 hi clear SignColumn
-hi clear LineNr
+hi LineNr guibg=None guifg=#555555
+hi clear VertSplit
 set colorcolumn=80
 
 if executable('rg')
@@ -154,6 +142,14 @@ nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 "Emmet
 let g:user_emmet_leader_key=','
@@ -165,5 +161,5 @@ let g:prettier#config#bracket_spacing = 'true'
 let g:prettier#config#jsx_bracket_same_line = 'false'
 let g:prettier#autoformat = 0
 
-"au BufNewFile,BufRead *.ts setlocal filetype=typescript
-"au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+au BufNewFile,BufRead *.ts setlocal filetype=typescript
+au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
