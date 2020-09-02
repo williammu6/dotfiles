@@ -11,11 +11,12 @@ Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
-Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-sleuth'
 call plug#end()
 
 set splitright
-set updatetime=300
+"set updatetime=300
 set hidden
 set nobackup
 set nowritebackup
@@ -25,10 +26,6 @@ set signcolumn=no
 set encoding=utf-8
 set t_Co=256
 set noerrorbells
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set nowrap
 set nohlsearch
 set incsearch
 set rnu
@@ -37,12 +34,41 @@ set clipboard^=unnamed,unnamedplus
 set guicursor=
 set lazyredraw
 
+" Tabs
+" Want auto indents automatically
+set autoindent
+set cindent
+set nowrap
+set expandtab
+
+" Make it so that long lines wrap smartly
+set breakindent
+let &showbreak=repeat(' ', 3)
+set linebreak
+
+" Set the width of the tab to 4 wide
+" This gets overridden by vim-sleuth, so that's nice
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+
+set belloff=all
+
+syntax enable
+
+set noswapfile
+
+" Folding
+set foldmethod=marker
+set foldlevel=0
+set modelines=1
+
 syntax on
 
 let mapleader = " "
 
-let g:gruvbox_material_background = 'hard'
-colorscheme gruvbox-material
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
 set background=dark
 
 "highlight Pmenu ctermbg=111217 guibg=#555
