@@ -8,15 +8,15 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sheerun/vim-polyglot'
 Plug 'mattn/emmet-vim'
 Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-sleuth'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 call plug#end()
 
-set splitright
-"set updatetime=300
+set updatetime=300
 set hidden
 set nobackup
 set nowritebackup
@@ -31,7 +31,6 @@ set incsearch
 set rnu
 set nu
 set clipboard^=unnamed,unnamedplus
-set guicursor=
 set lazyredraw
 
 " Tabs
@@ -54,7 +53,6 @@ set softtabstop=4
 
 set belloff=all
 
-syntax enable
 
 set noswapfile
 
@@ -63,6 +61,7 @@ set foldmethod=marker
 set foldlevel=0
 set modelines=1
 
+syntax enable
 syntax on
 
 let mapleader = " "
@@ -94,7 +93,6 @@ nnoremap <leader>w :q<CR>
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -156,36 +154,66 @@ noremap <Leader>P "+p
 "FZF
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
-
-" COC
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-nnoremap <leader>cr :CocRestart
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+let g:fzf_branch_actions = {
+      \ 'rebase': {
+      \   'prompt': 'Rebase> ',
+      \   'execute': 'echo system("{git} rebase {branch}")',
+      \   'multiple': v:false,
+      \   'keymap': 'ctrl-r',
+      \   'required': ['branch'],
+      \   'confirm': v:false,
+      \ },
+      \ 'track': {
+      \   'prompt': 'Track> ',
+      \   'execute': 'echo system("{git} checkout --track {branch}")',
+      \   'multiple': v:false,
+      \   'keymap': 'ctrl-t',
+      \   'required': ['branch'],
+      \   'confirm': v:false,
+      \ },
+      \}
 
 "Emmet
 let g:user_emmet_leader_key=','
 
-"Prettier
-nmap <leader>fa :PrettierAsync<CR>
-
-let g:prettier#config#bracket_spacing = 'true'
-let g:prettier#config#jsx_bracket_same_line = 'false'
-let g:prettier#autoformat = 0
-
 au BufNewFile,BufRead *.ts setlocal filetype=typescript
 au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+
+"Lsp
+
+"LANGUAGE SERVERS
+lua << EOF
+    local on_attach_vim = function()
+      require'completion'.on_attach()
+    end
+
+    local nvim_lsp = require'nvim_lsp'
+
+    nvim_lsp.tsserver.setup{on_attach=on_attach_vim}
+    nvim_lsp.pyls.setup{on_attach=on_attach_vim}
+EOF
+
+
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+set completeopt=menuone,noinsert,noselect
+
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+let g:completion_enable_auto_hover = 0
+let g:completion_trigger_on_delete = 1
+let g:completion_enable_auto_signature = 0
+let g:completion_sorting = "length"
+let g:completion_timer_cycle = 200
+let g:completion_matching_ignore_case = 1
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ completion#trigger_completion()
