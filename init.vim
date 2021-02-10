@@ -1,37 +1,48 @@
-filetype plugin on
+syntax enable
+syntax on
 
 call plug#begin()
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'preservim/nerdtree'
+
+Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
-Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
-Plug 'sheerun/vim-polyglot'
-Plug 'mattn/emmet-vim'
-Plug 'morhetz/gruvbox'
-Plug 'tpope/vim-sleuth'
+Plug 'itchyny/lightline.vim'
+Plug 'szw/vim-maximizer'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'tjdevries/gruvbuddy.nvim'
+
 call plug#end()
 
-set updatetime=300
+let mapleader = " "
+
+set listchars=tab:\|\ 
+set list
+set noshowmode
+"set guicursor=
+set updatetime=100
 set hidden
 set nobackup
 set nowritebackup
 set termguicolors
 set shortmess+=c
-set signcolumn=no
-set encoding=utf-8
-set t_Co=256
+set signcolumn=yes
+"set encoding=utf-8
 set noerrorbells
+set t_Co=256
 set nohlsearch
 set incsearch
 set rnu
 set nu
 set clipboard^=unnamed,unnamedplus
 set lazyredraw
+
+set laststatus=2
 
 " Tabs
 " Want auto indents automatically
@@ -47,12 +58,12 @@ set linebreak
 
 " Set the width of the tab to 4 wide
 " This gets overridden by vim-sleuth, so that's nice
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 
 set belloff=all
-
+set ttyfast
 
 set noswapfile
 
@@ -61,38 +72,53 @@ set foldmethod=marker
 set foldlevel=0
 set modelines=1
 
-syntax enable
-syntax on
+filetype plugin indent on
 
-let mapleader = " "
+lua require('colorbuddy').colorscheme('gruvbuddy')
+lua require'colorizer'.setup()
 
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
+colorscheme gruvbuddy
 set background=dark
 
-"highlight Pmenu ctermbg=111217 guibg=#555
-"highlight Normal ctermbg=None guibg=None
+"Clipboard
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
 
+"Highlight
 hi clear SignColumn
-hi LineNr guibg=None guifg=#555555
 hi clear VertSplit
-set colorcolumn=80
+hi CursorLineNr guibg=None guifg=#333
+highlight TabLineSel guifg=#ffffff
+highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
+"highlight Pmenu cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guifg=#ffffff guibg=#4f4f4f
 
+hi EndOfBuffer guibg=none
+hi LineNr guibg=none
+highlight GitGutterAdd guibg=none 
+highlight GitGutterDelete guibg=none 
+highlight GitGutterChange guibg=none 
+highlight GitGutterChangeDelete guibg=none 
+
+"RipGrep
 if executable('rg')
     let g:rg_derive_root='true'
 endif
 
-nnoremap <leader>h :wincmd h<CR>
+
 noremap <Leader>s :update<CR>
+nnoremap <Leader>s :update<CR>
+nmap <Leader>s :update<CR>
+
+nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
+
 nnoremap <leader>u :UndotreeShow<CR>
 
 nnoremap <leader>w :q<CR>
-
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -100,18 +126,17 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-autocmd BufWritePre * :call TrimWhitespace()
+"autocmd BufWritePre * :call TrimWhitespace()
+nmap <leader>trim :call TrimWhitespace()<CR>
 
 au BufNewFile,BufRead *.ts setlocal filetype=typescript
 au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 
-"nnoremap <C-p> :FZF<CR>
 nnoremap <C-p> :GFiles<cr>
 
-
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 
@@ -124,96 +149,85 @@ nmap <leader>gps :Gpush<CR>
 nmap <leader>gpl :Gpull<CR>
 nmap <leader>gs :G<CR>
 
-"NerdTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
-
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-map <C-n> :NERDTreeToggle<CR>
-
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-nnoremap <silent> <Leader>v :NERDTreeFind<CR>
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden=1
-
-
-"Clipboard
-noremap <Leader>y "*y
-noremap <Leader>p "*p
-noremap <Leader>Y "+y
-noremap <Leader>P "+p
-
-"FZF
+" "FZF
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 let g:fzf_branch_actions = {
-      \ 'rebase': {
-      \   'prompt': 'Rebase> ',
-      \   'execute': 'echo system("{git} rebase {branch}")',
-      \   'multiple': v:false,
-      \   'keymap': 'ctrl-r',
-      \   'required': ['branch'],
-      \   'confirm': v:false,
-      \ },
-      \ 'track': {
-      \   'prompt': 'Track> ',
-      \   'execute': 'echo system("{git} checkout --track {branch}")',
-      \   'multiple': v:false,
-      \   'keymap': 'ctrl-t',
-      \   'required': ['branch'],
-      \   'confirm': v:false,
-      \ },
-      \}
+            \ 'rebase': {
+            \   'prompt': 'Rebase> ',
+            \   'execute': 'echo system("{git} rebase {branch}")',
+            \   'multiple': v:false,
+            \   'keymap': 'ctrl-r',
+            \   'required': ['branch'],
+            \   'confirm': v:false,
+            \ },
+            \ 'track': {
+            \   'prompt': 'Track> ',
+            \   'execute': 'echo system("{git} checkout --track {branch}")',
+            \   'multiple': v:false,
+            \   'keymap': 'ctrl-t',
+            \   'required': ['branch'],
+            \   'confirm': v:false,
+            \ },
+            \}
 
-"Emmet
-let g:user_emmet_leader_key=','
-
-au BufNewFile,BufRead *.ts setlocal filetype=typescript
-au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 
 "Lsp
 
-"LANGUAGE SERVERS
-lua << EOF
-    local on_attach_vim = function()
-      require'completion'.on_attach()
-    end
 
-    local nvim_lsp = require'nvim_lsp'
+lua require'lspconfig'.pyls.setup { on_attach=require'completion'.on_attach } 
+"lua require'lspconfig'.solargraph.setup { on_attach=require'completion'.on_attach } 
 
-    nvim_lsp.tsserver.setup{on_attach=on_attach_vim}
-    nvim_lsp.pyls.setup{on_attach=on_attach_vim}
-EOF
-
-
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> vD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1vD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> vr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> v0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> vW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> vd    <cmd>lua vim.lsp.buf.declaration()<CR>
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-let g:completion_enable_auto_hover = 0
-let g:completion_trigger_on_delete = 1
-let g:completion_enable_auto_signature = 0
-let g:completion_sorting = "length"
-let g:completion_timer_cycle = 200
-let g:completion_matching_ignore_case = 1
+augroup highlight_yank
+    autocmd!
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 40})
+augroup END
 
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+"Search
+nnoremap / /\m
+nnoremap <leader>/ /\m\c
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ completion#trigger_completion()
+"Maximizer
+nnoremap <leader>mt :MaximizerToggle<CR>
+
+
+"NeoFormat
+nnoremap <leader>fpy :Neoformat! python<CR>
+
+"GitGutter
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
+
+
+nmap <leader>hl :nohl<CR>
+
+"Lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
