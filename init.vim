@@ -18,7 +18,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'preservim/nerdtree'
 
 Plug 'tjdevries/colorbuddy.vim'
-Plug 'tjdevries/gruvbuddy.nvim'
+Plug '/Users/williammurari/dotfiles/lua/nicebuddy.nvim'
 
 call plug#end()
 
@@ -77,10 +77,10 @@ set modelines=1
 
 filetype plugin indent on
 
-lua require('colorbuddy').colorscheme('gruvbuddy')
+lua require('colorbuddy').colorscheme('nicebuddy')
 lua require'colorizer'.setup()
 
-colorscheme gruvbuddy
+colorscheme nicebuddy
 set background=dark
 
 "Clipboard
@@ -250,4 +250,6 @@ nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
+
+let NERDTreeShowHidden=1
 
