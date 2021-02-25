@@ -11,20 +11,29 @@ Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
 Plug 'szw/vim-maximizer'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'norcalli/nvim-colorizer.lua'
+
 Plug 'neovim/nvim-lspconfig'
+Plug 'tjdevries/lsp_extensions.nvim'
+
 Plug 'nvim-lua/completion-nvim'
 Plug 'Yggdroot/indentLine'
-Plug 'preservim/nerdtree'
+Plug 'gruvbox-community/gruvbox'
+Plug 'nanotech/jellybeans.vim'
+Plug 'sbdchd/neoformat'
+Plug 'ngmy/vim-rubocop'
 
-Plug 'tjdevries/colorbuddy.vim'
-Plug '/Users/williammurari/dotfiles/lua/nicebuddy.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
 let mapleader = " "
 
-set listchars=tab:\|\ 
 set list
 set noshowmode
 "set guicursor=
@@ -32,10 +41,10 @@ set updatetime=100
 set hidden
 set nobackup
 set nowritebackup
-set termguicolors
+set tgc
 set shortmess+=c
 set signcolumn=yes
-"set encoding=utf-8
+set encoding=utf-8
 set noerrorbells
 set t_Co=256
 set nohlsearch
@@ -44,6 +53,7 @@ set rnu
 set nu
 set clipboard^=unnamed,unnamedplus
 set lazyredraw
+set scrolloff=8
 
 set laststatus=2
 
@@ -77,10 +87,9 @@ set modelines=1
 
 filetype plugin indent on
 
-lua require('colorbuddy').colorscheme('nicebuddy')
-lua require'colorizer'.setup()
 
-colorscheme nicebuddy
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme jellybeans
 set background=dark
 
 "Clipboard
@@ -89,12 +98,13 @@ noremap <Leader>p "*p
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
 
+
 "Highlight
 hi clear SignColumn
 hi clear VertSplit
 hi CursorLineNr guibg=None guifg=#333
 highlight TabLineSel guifg=#ffffff
-highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
+"highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
 "highlight Pmenu cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guifg=#ffffff guibg=#4f4f4f
 
 hi EndOfBuffer guibg=none
@@ -148,48 +158,10 @@ nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
 nmap <leader>gc :Gcommit<CR>
 nmap <leader>gck :Git checkout -- %<CR>
-nmap <leader>gps :Gpush<CR>
-nmap <leader>gpl :Gpull<CR>
+nmap <leader>gps :Git push<CR>
+nmap <leader>gpl :Git pull<CR>
 nmap <leader>gs :G<CR>
 
-" "FZF
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
-let $FZF_DEFAULT_OPTS='--reverse'
-let g:fzf_branch_actions = {
-            \ 'rebase': {
-            \   'prompt': 'Rebase> ',
-            \   'execute': 'echo system("{git} rebase {branch}")',
-            \   'multiple': v:false,
-            \   'keymap': 'ctrl-r',
-            \   'required': ['branch'],
-            \   'confirm': v:false,
-            \ },
-            \ 'track': {
-            \   'prompt': 'Track> ',
-            \   'execute': 'echo system("{git} checkout --track {branch}")',
-            \   'multiple': v:false,
-            \   'keymap': 'ctrl-t',
-            \   'required': ['branch'],
-            \   'confirm': v:false,
-            \ },
-            \}
-
-
-"Lsp
-
-
-lua require'lspconfig'.pyls.setup { on_attach=require'completion'.on_attach } 
-"lua require'lspconfig'.solargraph.setup { on_attach=require'completion'.on_attach } 
-
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> vD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1vD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> vr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> v0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> vW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-nnoremap <silent> vd    <cmd>lua vim.lsp.buf.declaration()<CR>
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -223,33 +195,11 @@ nmap ghp <Plug>(GitGutterPreviewHunk)
 
 nmap <leader>hl :nohl<CR>
 
-"Lightline
-let g:lightline = {
-      \ 'colorscheme': 'darcula',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead',
-      \   'filename': 'LightlineFilename'
-      \ },
-      \ }
+"Gitgrep
+set grepprg=git\ grep
 
-function! LightlineFilename()
-  let root = fnamemodify(get(b:, 'git_dir'), ':h')
-  let path = expand('%:p')
-  if path[:len(root)-1] ==# root
-    return path[len(root)+1:]
-  endif
-  return expand('%')
-endfunction
+let g:grep_cmd_opts = '--line-number'
 
-"NerdTree
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
+let g:vimrubocop_config = '/home/william/Documents/projects/.rubocop.yml'
 
-let NERDTreeShowHidden=1
-
+nmap <Leader>r :RuboCop<CR>

@@ -1,8 +1,0 @@
-{
-  "typescript.suggest.autoImports":true,
-  "eslint.filetypes": ["javascript", "typescript", "typescriptreact", "javascriptreact"],
-  "prettier.semi": true,
-  "python.jediEnabled": true,
-  "python.linting.pylintEnabled": false,
-  "python.linting.flake8Enabled": true
-}
