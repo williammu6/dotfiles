@@ -17,8 +17,6 @@ Plug 'tjdevries/lsp_extensions.nvim'
 
 Plug 'nvim-lua/completion-nvim'
 Plug 'Yggdroot/indentLine'
-Plug 'gruvbox-community/gruvbox'
-Plug 'nanotech/jellybeans.vim'
 Plug 'sbdchd/neoformat'
 Plug 'ngmy/vim-rubocop'
 
@@ -27,8 +25,12 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
+Plug 'gruvbox-community/gruvbox'
+Plug 'nanotech/jellybeans.vim'
+Plug 'chriskempson/base16-vim'
 
-Plug 'preservim/nerdtree'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
 
 call plug#end()
 
@@ -47,7 +49,7 @@ set signcolumn=yes
 set encoding=utf-8
 set noerrorbells
 set t_Co=256
-set nohlsearch
+set hlsearch
 set incsearch
 set rnu
 set nu
@@ -89,8 +91,11 @@ filetype plugin indent on
 
 
 let g:gruvbox_contrast_dark = 'hard'
-colorscheme jellybeans
+
+let ayucolor="dark"
+
 set background=dark
+colorscheme base16-default-dark
 
 "Clipboard
 noremap <Leader>y "*y
@@ -104,11 +109,12 @@ hi clear SignColumn
 hi clear VertSplit
 hi CursorLineNr guibg=None guifg=#333
 highlight TabLineSel guifg=#ffffff
-"highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
+highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
 "highlight Pmenu cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guifg=#ffffff guibg=#4f4f4f
 
 hi EndOfBuffer guibg=none
 hi LineNr guibg=none
+"hi Search guibg=#222222 guifg=#ffffff
 highlight GitGutterAdd guibg=none 
 highlight GitGutterDelete guibg=none 
 highlight GitGutterChange guibg=none 
