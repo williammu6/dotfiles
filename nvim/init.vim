@@ -1,3 +1,4 @@
+filetype plugin indent on
 syntax enable
 syntax on
 
@@ -8,47 +9,49 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
-Plug 'itchyny/lightline.vim'
 Plug 'szw/vim-maximizer'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
-Plug 'neovim/nvim-lspconfig'
-Plug 'tjdevries/lsp_extensions.nvim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fannheyward/coc-marketplace'
+
+Plug 'nanotech/jellybeans.vim'
+Plug 'morhetz/gruvbox'
+Plug 'ntk148v/vim-horizon'
 
 Plug 'nvim-lua/completion-nvim'
 Plug 'Yggdroot/indentLine'
 Plug 'sbdchd/neoformat'
 Plug 'ngmy/vim-rubocop'
 
+Plug 'mg979/vim-visual-multi'
+
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
-Plug 'gruvbox-community/gruvbox'
-Plug 'nanotech/jellybeans.vim'
-Plug 'chriskempson/base16-vim'
-
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
-Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'preservim/nerdtree'
+
+Plug 'norcalli/nvim-colorizer.lua'
 
 call plug#end()
 
 let mapleader = " "
-
 set list
-set noshowmode
-"set guicursor=
+"set noshowmode
+set guicursor=
 set updatetime=100
 set hidden
 set nobackup
 set nowritebackup
-set tgc
+set termguicolors
 set shortmess+=c
 set signcolumn=yes
 set encoding=utf-8
 set noerrorbells
-set t_Co=256
 set hlsearch
 set incsearch
 set rnu
@@ -83,19 +86,14 @@ set ttyfast
 set noswapfile
 
 " Folding
-set foldmethod=marker
-set foldlevel=0
-set modelines=1
-
-filetype plugin indent on
-
-
-let g:gruvbox_contrast_dark = 'hard'
-
-let ayucolor="dark"
+set foldmethod=syntax
+set foldlevel=99
 
 set background=dark
-colorscheme base16-default-dark
+
+let g:gruvbox_contrast_dark = 'medium'
+
+colorscheme jellybeans
 
 "Clipboard
 noremap <Leader>y "*y
@@ -114,11 +112,11 @@ highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NO
 
 hi EndOfBuffer guibg=none
 hi LineNr guibg=none
+
+hi TabLineSel guifg=white guibg=none
+hi TabLine guifg=gray guibg=none
+hi TabLineFill guibg=none
 "hi Search guibg=#222222 guifg=#ffffff
-highlight GitGutterAdd guibg=none 
-highlight GitGutterDelete guibg=none 
-highlight GitGutterChange guibg=none 
-highlight GitGutterChangeDelete guibg=none 
 
 "RipGrep
 if executable('rg')
@@ -162,7 +160,7 @@ endfunction
 " Vim-fugitive
 nmap <leader>gj :diffget //3<CR>
 nmap <leader>gf :diffget //2<CR>
-nmap <leader>gc :Gcommit<CR>
+nmap <leader>gc :Git commit<CR>
 nmap <leader>gck :Git checkout -- %<CR>
 nmap <leader>gps :Git push<CR>
 nmap <leader>gpl :Git pull<CR>
@@ -191,13 +189,6 @@ nnoremap <leader>mt :MaximizerToggle<CR>
 "NeoFormat
 nnoremap <leader>fpy :Neoformat! python<CR>
 
-"GitGutter
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
-nmap ghs <Plug>(GitGutterStageHunk)
-nmap ghu <Plug>(GitGutterUndoHunk)
-nmap ghp <Plug>(GitGutterPreviewHunk)
-
 
 nmap <leader>hl :nohl<CR>
 
@@ -209,3 +200,17 @@ let g:grep_cmd_opts = '--line-number'
 let g:vimrubocop_config = '/home/william/Documents/projects/.rubocop.yml'
 
 nmap <Leader>r :RuboCop<CR>
+
+set foldlevel=99 " Open all folds
+
+
+function RubocopAutoformat()
+    silent ! rubocop --auto-correct %
+    :e!
+endfunction
+
+nnoremap <leader>frb :call RubocopAutoformat()<CR>
+
+let g:user_emmet_leader_key=','
+
+lua require'colorizer'.setup()
