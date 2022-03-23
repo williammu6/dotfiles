@@ -1,7 +1,7 @@
 [user]
 	name = William Murari
 	email = williammu6@gmail.com
-[credential]
-	helper = store
 [core]
 	editor = nvim
+[credential]
+	helper = store
