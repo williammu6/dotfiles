@@ -17,6 +17,7 @@ set nu
 set clipboard^=unnamed,unnamedplus
 set lazyredraw
 set scrolloff=8
+set colorcolumn=80
 
 " Tabs
 " Want auto indents automatically
@@ -42,6 +43,7 @@ set ttyfast
 set noswapfile
 
 " Folding
-set foldmethod=marker
-set foldlevel=0
-set modelines=1
+highlight FoldColumn guibg=darkgrey guifg=white
+highlight Folded guifg=PeachPuff4
+set foldmethod=indent
+set foldlevelstart=20

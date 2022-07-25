@@ -10,27 +10,45 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jremmen/vim-ripgrep'
 Plug 'tpope/vim-fugitive'
 Plug 'szw/vim-maximizer'
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'Yggdroot/indentLine'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'preservim/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'nvim-lualine/lualine.nvim'
 " If you want to have icons in your statusline choose one of these
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
-Plug 'hrsh7th/vim-vsnip'
+"Plug 'hrsh7th/nvim-compe'
+Plug 'mhinz/vim-signify'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'branch': 'release/0.x'
+  \ }
+Plug 'joshdick/onedark.vim'
 
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 call plug#end()
 
 let mapleader = " "
 
 colorscheme gruvbox
-set background=dark
 
+let g:gruvbox_contrast_dark = "dark"
+
+set background=dark
 "Clipboard
 noremap <Leader>y "*y
 noremap <Leader>p "*p
@@ -44,11 +62,11 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 
 "Highlight
-hi clear SignColumn
-hi clear VertSplit
+"hi clear SignColumn
+"hi clear VertSplit
 "hi CursorLineNr guibg=None guifg=#333
 "highlight TabLineSel guifg=#ffffff
-highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
+"highlight Normal cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guibg=NONE guifg=NONE
 "highlight Pmenu cterm=NONE gui=NONE ctermbg=233 ctermfg=252 guifg=#ffffff guibg=#4f4f4f
 "hi EndOfBuffer guibg=none
 "hi LineNr guibg=none
@@ -103,10 +121,17 @@ nnoremap <leader>/ /\m\c
 "Maximizer
 nnoremap <leader>mt :MaximizerToggle<CR>
 
+
+
+
+
 nmap <leader>hl :nohl<CR>
 lua require('lualine').setup()
 
 set laststatus=3
 "ino <C-A> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
+
+nnoremap <leader>pret :PrettierAsync<CR>
+
 
 
