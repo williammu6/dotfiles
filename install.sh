@@ -3,10 +3,7 @@
 path=$(pwd)
 nvim_path=$HOME/.config/nvim
 
-mkdir -p $nvim_path/plugin
+# Packer setup
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-ln -sf $path/.gitconfig $HOME/.gitconfig
-ln -sf $path/init.vim $nvim_path/init.vim
-ln -sf $path/plugin $nvim_path/plugin
-ln -sf $path/.zshrc $HOME/.zshrc
-ln -sf $path/.tmux.conf $HOME/.tmux.conf
