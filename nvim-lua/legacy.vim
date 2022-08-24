@@ -55,6 +55,3 @@ highlight FoldColumn guibg=darkgrey guifg=white
 highlight Folded guifg=PeachPuff4
 set foldmethod=indent
 set foldlevelstart=20
-
-
-nnoremap <silent> <C-p> :Files<CR>
