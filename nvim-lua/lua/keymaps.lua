@@ -8,9 +8,12 @@ end
 
 map("n", "<C-t>", ":NvimTreeToggle<CR>")
 map("n", "<C-f>", ":NvimTreeFindFile<CR>")
-map("n", "<C-p>", ":GFiles<CR>")
 
 map("n", "<leader>h", "<C-w>h<CR>")
 map("n", "<leader>l", "<C-w>l<CR>")
 map("n", "<leader>j", "<C-w>j<CR>")
 map("n", "<leader>k", "<C-w>k<CR>")
+
+map("n", "<leader>fs", ":Telescope grep_string<CR>")
+map("n", "<leader>ff", ":Telescope find_files<CR>")
+map("n", "<leader>fl", ":Telescope live_grep<CR>")

@@ -23,5 +23,6 @@ vim.cmd([[
 ]])
 
 require("mylsp")
+require("mytelescope")
 require("nvimtree")
 require("keymaps")

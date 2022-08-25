@@ -169,6 +169,11 @@ _G.packer_plugins = {
     path = "/home/wmurari/.local/share/nvim/site/pack/packer/start/vim-polyglot",
     url = "https://github.com/sheerun/vim-polyglot"
   },
+  ["vim-prettier"] = {
+    loaded = true,
+    path = "/home/wmurari/.local/share/nvim/site/pack/packer/start/vim-prettier",
+    url = "https://github.com/prettier/vim-prettier"
+  },
   ["vim-surround"] = {
     loaded = true,
     path = "/home/wmurari/.local/share/nvim/site/pack/packer/start/vim-surround",
