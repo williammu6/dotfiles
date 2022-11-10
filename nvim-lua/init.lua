@@ -2,21 +2,21 @@ require("plugins")
 
 vim.g.mapleader = ' '
 
-require("gruvbox").setup({
-  undercurl = true,
-  underline = true,
-  bold = true,
-  italic = true,
-  strikethrough = true,
-  invert_selection = false,
-  invert_signs = false,
-  invert_tabline = false,
-  invert_intend_guides = false,
-  inverse = true, -- invert background for search, diffs, statuslines and errors
-  contrast = "", -- can be "hard", "soft" or empty string
-  overrides = {},
+require("tokyonight").setup({
+    style = "moon",
+    transparent = true,
+    styles = {
+        sidebars = "transparent"
+    }
 })
-vim.cmd("colorscheme gruvbox")
+
+require("telescope").setup {
+    defaults = {
+        file_ignore_patterns = { "node_modules" }
+    }
+}
+
+vim.cmd("colorscheme tokyonight")
 
 vim.cmd([[
 	so ~/.config/nvim/legacy.vim
@@ -26,3 +26,4 @@ require("mylsp")
 require("mytelescope")
 require("nvimtree")
 require("keymaps")
+require("lualine").setup()

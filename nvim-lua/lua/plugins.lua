@@ -24,7 +24,8 @@ return require('packer').startup(function()
     use 'ntpeters/vim-better-whitespace'
     use 'windwp/nvim-autopairs'
     use 'tpope/vim-fugitive'
-    use 'ellisonleao/gruvbox.nvim'
+    use 'folke/tokyonight.nvim'
+    use 'gruvbox-community/gruvbox'
 
     use {
       'kyazdani42/nvim-tree.lua',

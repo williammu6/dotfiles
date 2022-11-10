@@ -6,6 +6,7 @@ nmap <leader>gps :Git push<CR>
 nmap <leader>gpl :Git pull<CR>
 nmap <leader>gs :G<CR>
 
+set mouse=a
 set noshowmode
 set guicursor=
 set updatetime=100
@@ -25,7 +26,7 @@ set nu
 set clipboard^=unnamed,unnamedplus
 set lazyredraw
 set scrolloff=8
-set colorcolumn=80
+"set colorcolumn=80
 
 " Tabs
 " Want auto indents automatically
@@ -53,5 +54,7 @@ set noswapfile
 " Folding
 highlight FoldColumn guibg=darkgrey guifg=white
 highlight Folded guifg=PeachPuff4
+highlight Normal guibg=none
+highlight SignColumn guibg=none
 set foldmethod=indent
 set foldlevelstart=20
