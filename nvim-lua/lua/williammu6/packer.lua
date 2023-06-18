@@ -1,3 +1,5 @@
+vim.cmd [[packadd packer.nvim]]
+
 return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
   use {
@@ -62,11 +64,14 @@ return require('packer').startup(function()
 		  {'saadparwaiz1/cmp_luasnip'},
 		  {'hrsh7th/cmp-nvim-lsp'},
 		  {'hrsh7th/cmp-nvim-lua'},
-      {'hrsh7th/cmp-nvim-lsp-signature-help'},
+          {'hrsh7th/cmp-nvim-lsp-signature-help'},
 
 		  -- Snippets
 		  {'L3MON4D3/LuaSnip'},
 		  {'rafamadriz/friendly-snippets'},
+          {"ray-x/lsp_signature.nvim"},
+
+
 	  }
   }
 

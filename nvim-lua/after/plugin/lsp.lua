@@ -5,6 +5,8 @@ lsp.preset("recommended")
 lsp.ensure_installed({
   'tsserver',
   'rust_analyzer',
+  'pyright',
+  'clangd',
 })
 
 -- Fix Undefined global 'vim'
@@ -36,6 +38,16 @@ lsp.set_preferences({
         info = 'I'
     }
 })
+
+
+local signature_config = {
+  debug = true,
+  hint_enable = false,
+  handler_opts = { border = "single" },
+  max_width = 80,
+}
+
+require("lsp_signature").setup(signature_config)
 
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
