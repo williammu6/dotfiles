@@ -7,12 +7,19 @@ return require('packer').startup(function()
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
 
-  -- use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons', -- optional, for file icons }, }
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = { 'nvim-tree/nvim-web-devicons' },
+  }
 
   use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.0',
 	  -- or                            , branch = '0.1.x',
-	  requires = { {'nvim-lua/plenary.nvim'} }
+	  requires = { {'nvim-lua/plenary.nvim', "nvim-telescope/telescope-live-grep-args.nvim" } },
+
+    config = function()
+      require("telescope").load_extension("live_grep_args")
+    end
   }
 
   use({
@@ -42,7 +49,6 @@ return require('packer').startup(function()
 				ts_update()
 			end,}
   use("nvim-treesitter/playground")
-  use("theprimeagen/harpoon")
   use("mbbill/undotree")
   use("tpope/vim-fugitive")
   use("nvim-treesitter/nvim-treesitter-context");
@@ -79,5 +85,7 @@ return require('packer').startup(function()
   --use("github/copilot.vim")
   use("eandrju/cellular-automaton.nvim")
   use("laytan/cloak.nvim")
+  use("MunifTanjim/eslint.nvim")
+  use("APZelos/blamer.nvim")
 end)
 

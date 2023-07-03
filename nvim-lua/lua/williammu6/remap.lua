@@ -11,7 +11,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+-- vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
@@ -43,8 +43,21 @@ vim.keymap.set("n", "<C-f>", "<cmd>NvimTreeFindFile<CR>")
     vim.keymap.set("n", "<leader>l", "<C-w>l<CR>")
 
 vim.keymap.set("n", "<leader><leader>", function()
-    -- vim.keymap.set("n", "<leader>j", "<C-w>j<CR>")
-    -- vim.keymap.set("n", "<leader>k", "<C-w>k<CR>")
     vim.cmd("so")
 end)
+
+vim.keymap.set("n", "<leader>cpp", function()
+    local path = vim.fn.expand("%:P")
+    vim.fn.setreg("+", path)
+    vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {}) 
+
+vim.keymap.set("n", "<leader>ghp", "<cmd>GitGutterPreviewHunk<CR>")
+vim.keymap.set("n", "<leader>ghs", "<cmd>GitGutterStageHunk<CR>")
+vim.keymap.set("n", "<leader>ghu", "<cmd>GitGutterUndoHunk<CR>")
+
+vim.keymap.set("n", "<leader>gb", "<cmd>BlamerToggle<CR>")
+
+vim.keymap.set("n", "<leader>gpl", "<cmd>Git pull<CR>")
+vim.keymap.set("n", "<leader>gps", "<cmd>Git push<CR>")
 
